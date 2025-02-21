@@ -1,0 +1,50 @@
+﻿@page
+@model TodoApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "My Awesome To-Do List";
+}
+
+<h1>My Awesome To-Do List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.Tasks)
+        {
+            <tr>
+                <td>@task.Name</td>
+                <td>
+                    @if (task.IsDone)
+                    {
+                        <span class="badge bg-success">Done</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Not Done</span>
+                    }
+                </td>
+                <td>
+                    <form method="post" asp-page-handler="MarkAsDone" asp-route-id="@task.Id" style="display:inline;">
+                        <button class="btn btn-sm btn-primary">Mark as Done</button>
+                    </form>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@task.Id" style="display:inline;">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="post" asp-page-handler="AddTask">
+    <div class="input-group">
+        <input type="text" name="name" class="form-control" placeholder="Add a new task" required />
+        <button type="submit" class="btn btn-success">Add Task</button>
+    </div>
+</form>
